@@ -1,50 +1,55 @@
-# React + TypeScript + Vite
+# C17 NoSQL: Social Network API
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
+    Carkplan pan board with JWT token to protect your password. Data is saved at postgresSQL. Login to input new board post, to do list, or modify the status. Thanks for viewing. 
+    
+    Render deployment: https://carkplan-pan-board.onrender.com
+    Repository: https://github.com/georgecho98/bootcamp-hw-12-module-14
 
-Currently, two official plugins are available:
+    
+## Table of Contents
+1. [Installation](#installation)
+2. [License](#license)
+3. [Credit](#credit)
+4. [Usage](#Usage)
+5. [Questions](#questions)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## Installation 
+    
+    Download the repostary. Then follow the following step: npm install, npm run build, npm run seed,  npm run start.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+    Place your .env file in the server folder. and input your postgres url and JWT token in there.
+    For the development version: npm run dev
 
-- Configure the top-level `parserOptions` property like this:
+## License
+    no license
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Credit
+    Vite, react, typscript, API, JWT
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Usage
+   Frontpagr
+<p>
+<img src = "./readmepic/1.JPG" height = 60% width = 60%></p>
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+login page
+<p>
+<img src = "./readmepic/2.JPG" height = 60% width = 60%></p>
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Board post
+<p><img src = "./readmepic/3.JPG" height = 60% width = 60%></p>
+
+Create ticket
+<p><img src = "./readmepic/4.JPG" height = 60% width = 60%></p>
+
+## Questions
+    
+    If you have any questions, feel free to reach out to me at (mailto:chauhk88@gmail.com).
+
+    
+    Github repository:
+
+    https://github.com/georgecho98/bootcamp-hw-12-module-14
+
+    
