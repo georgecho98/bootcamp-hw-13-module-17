@@ -1,50 +1,98 @@
-import { User, Thought, Reaction } from '../models/index.js';
+import { User } from '../models/index.js';
 import { Request, Response } from 'express';
 
 
-  export const getComments = async (_req: Request, res: Response) => {
-    try {
-      const comment = await Comment.find();
-      res.json(comment);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  }
-  // Get a single comment
-  export const getSingleComment = async (req: Request, res: Response) => {
-    try {
-      const comment = await Comment.findOne({ _id: req.params.commentId });
+export const getUsers = async(_req:Request, res:Response) => {
+  try {
 
-      if (!comment) {
-        res.status(404).json({ message: 'No comment found with that id' });
-      } else {
-        res.json(comment);
+    //wait for the promise
+    const users= await User.find();
+    //convert response to json format.
+    res.json(users);
+  }catch (err) {
+    res.status(500).json(err);
+  } };
+
+  export const getSingleUser = async(req:Request, res:Response) => {
+    try {
+      const singleUser= await User.findOne({_id:req.params.id});
+      
+      if(!singleUser) {
+        res.status(404).json({
+          message: 'No user with that ID'
+        }) } else{
+      res.json(singleUser)
+
+        } } 
+        catch(err) {
+          res.status(500).json(err)
+
+        }
       }
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  }
-  // Create a comment
-  export const createComment = async (req: Request, res: Response) => {
-    try {
-      const comment = await Comment.create(req.body);
-      const post = await Post.findOneAndUpdate(
-        { _id: req.body.postId },
-        { $push: { comments: comment._id } },
-        { new: true }
-      );
-
-      if (!post) {
-        res
-          .status(404)
-          .json({ message: 'comment created, but no posts with this ID' });
-      } else {
-        res.json({ message: 'comment created' });
+      
+    export const createUser = async(req:Request, res:Response) =>{
+      try{
+        const dbUser = await User.create(req.body);
+        res.json(dbUser);
+      }catch(err) {
+        res.status(500).json(err)
+      }
       }
 
+    export const addUser = async (req: Request, res:Response) =>{
+      try{
+        const userNew= await User.replaceOne({_id:req.params.userId})
+        if(!userNew) {
+          res.status(404).json({
+            message: 'No user with that ID'
+          }) } else{
+        res.json(userNew)
+  
+          } } 
+          catch(err) {
+            res.status(500).json(err)
+            } }
 
-    } catch (err) {
-      console.error(err);
-    }
-  }
+
+    export const deletUser = async(req:Request, res:Response) =>{
+      try{
+        const deleuser = await User.deleteOne({_id:req.params.userId})
+        if (!deleuser) {
+          res.status(404).json({
+            message: 'No user with that ID'
+          }) } else{
+        res.json(deleuser)
+          } } 
+          catch(err) {
+            res.status(500).json(err)
+      }
+     }
+  
+     export const createFriend = async(req:Request, res:Response) =>{
+      try{
+        const dbFriend = await User.create({_id:req.params.friends});
+        res.json(dbFriend);
+      }catch(err) {
+        res.status(500).json(err)
+      }
+      }
+
+  
+  
+      export const deletFriend = async(req:Request, res:Response) =>{
+        try{
+          const delefriend = await User.deleteOne({_id:req.params.friends})
+          if (!delefriend) {
+            res.status(404).json({
+              message: 'No user with that ID'
+            }) } else{
+          res.json(delefriend)
+    
+            } } 
+            catch(err) {
+              res.status(500).json(err)
+          }
+      }
+  
+
 

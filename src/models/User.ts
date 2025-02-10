@@ -1,26 +1,26 @@
-import { Schema, Types, model, ObjectId, type Document } from 'mongoose';
+import { Schema, model, ObjectId, type Document } from 'mongoose';
 import {isEmail} from 'validator';
-import Reaction from './Reaction.js';
+
 import Thought from './Thought.js';
 
 interface IUser extends Document {
     username: string;
     email: string;
-    thoughts?: Thought.Types.ObjectId[];
-    friends: Schema.Types.ObjectId[];
+    thoughts?: ObjectId[];
+    friends: ObjectId[];
 }
 
 
 const IUserSchema = new Schema<IUser>({
-    username :{type:String, required:true, unique: true, Trim: true},
-    email: {type:String, required:true, unique: true, validate: [isEmail,'Please put in a valide email']},
+    username :{type:String, required:true, unique: true, trim: true},
+    email: {type:String, required:true, unique: true, validate: [isEmail,'Please put in a valid email']},
     thoughts: [{
-        type: Thought.ObjectId,
-        ref:'thoughts'
+        type: Schema.Types.ObjectId,
+        ref:'Thought'
     }], 
     friends: [{
-        type: Schema.ObjectId,
-        ref:'friends'
+        type: Schema.Types.ObjectId,
+        ref:'User'
     }], 
 },
     {   toJSON: {virtuals:true,}
