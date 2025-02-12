@@ -1,16 +1,38 @@
-"use strict";
-// import { Schema, Types, model, ObjectId, type Document } from 'mongoose';
-// interface IReaction extends Document {
-//     reactionId: ObjectId,
-//     reactionBody: string,
-//     username: String,
-//     createdAt: Date
-// }
-// //This will not be a model, but rather will be used as the `reaction` field's subdocument schema in the `Thought` model.
-// const reactionSchema = new Schema<IReaction>({
-//     reactionId:{type: Schema.Types.ObjectId, default: new Object, ref: 'reactionSchema'},
-//     reactionBody: {type:String, required:true, maxlength:280},
-//     username: {type:String, required:true},
-//     createdAt: {type:Date, Timestamp: {currentTime:()=> Math.floor(Date.now()/1000)}}
-// })
-// export default reactionSchema;
+import { Schema, Types } from 'mongoose';
+// Create the reaction schema
+const reactionSchema = new Schema({
+    reactionId: {
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId()
+    },
+    reactionBody: {
+        type: String,
+        required: true,
+        maxlength: 280
+    },
+    username: {
+        type: String,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+        get: (value) => {
+            return value.toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+        }
+    }
+}, {
+    toJSON: {
+        getters: true
+    },
+    id: false
+});
+export default reactionSchema;

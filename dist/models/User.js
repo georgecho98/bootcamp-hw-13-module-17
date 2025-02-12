@@ -1,17 +1,23 @@
 import { Schema, model } from 'mongoose';
-import { isEmail } from 'validator';
+// import {isEmail} from 'validator';
+import pkg from 'validator';
+const { isEmail } = pkg;
+import Thought from './Thought.js';
 const IUserSchema = new Schema({
     username: { type: String, required: true, unique: true, trim: true },
     email: { type: String, required: true, unique: true, validate: [isEmail, 'Please put in a valid email'] },
     thoughts: [{
             type: Schema.Types.ObjectId,
-            ref: 'Thought'
+            ref: [Thought]
         }],
     friends: [{
             type: Schema.Types.ObjectId,
             ref: 'User'
         }],
-}, { toJSON: { virtuals: true, }
+}, { timestamps: true,
+    toJSON: { virtuals: true,
+        getters: true
+    }, id: false
 });
 // Create a virtual called `friendCount` that retrieves the length of the user's `friends` array field on query.
 IUserSchema.virtual('friendCount').get(function () {

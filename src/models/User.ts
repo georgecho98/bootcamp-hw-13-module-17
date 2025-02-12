@@ -1,13 +1,14 @@
-import { Schema, model, ObjectId, type Document } from 'mongoose';
-import {isEmail} from 'validator';
-
+import { Schema, model,  Types, Document } from 'mongoose';
+// import {isEmail} from 'validator';
+import pkg from 'validator';
+const { isEmail } = pkg;
 import Thought from './Thought.js';
 
 interface IUser extends Document {
     username: string;
     email: string;
-    thoughts?: ObjectId[];
-    friends: ObjectId[];
+    thoughts?: Types.ObjectId[];
+    friends:Types.ObjectId[];
 }
 
 
@@ -16,15 +17,18 @@ const IUserSchema = new Schema<IUser>({
     email: {type:String, required:true, unique: true, validate: [isEmail,'Please put in a valid email']},
     thoughts: [{
         type: Schema.Types.ObjectId,
-        ref:'Thought'
+        ref:[Thought]
     }], 
     friends: [{
         type: Schema.Types.ObjectId,
         ref:'User'
     }], 
 },
-    {   toJSON: {virtuals:true,}
-    }
+    {timestamps:true,
+       toJSON: {virtuals:true,
+      getters:true
+    }, id:false
+  }
     
 )
 
@@ -34,5 +38,6 @@ IUserSchema.virtual('friendCount').get(function () {
   });
 
 const User = model<IUser>('User', IUserSchema);
+
 
 export default User;

@@ -13,9 +13,9 @@ export const getUsers = async(_req:Request, res:Response) => {
     res.status(500).json(err);
   } };
 
-  export const getSingleUser = async(req:Request, res:Response) => {
+export const getSingleUser = async(req:Request, res:Response) => {
     try {
-      const singleUser= await User.findOne({_id:req.params.id});
+      const singleUser= await User.findById({_id:req.params.userId});
       
       if(!singleUser) {
         res.status(404).json({
@@ -30,7 +30,7 @@ export const getUsers = async(_req:Request, res:Response) => {
         }
       }
       
-    export const createUser = async(req:Request, res:Response) =>{
+  export const createUser = async(req:Request, res:Response) =>{
       try{
         const dbUser = await User.create(req.body);
         res.json(dbUser);
@@ -39,9 +39,9 @@ export const getUsers = async(_req:Request, res:Response) => {
       }
       }
 
-    export const addUser = async (req: Request, res:Response) =>{
+  export const updateUser = async (req: Request, res:Response) =>{
       try{
-        const userNew= await User.replaceOne({_id:req.params.userId})
+        const userNew= await User.findByIdAndUpdate({_id:req.params.userId}, req.body, { new: true })
         if(!userNew) {
           res.status(404).json({
             message: 'No user with that ID'
@@ -54,9 +54,9 @@ export const getUsers = async(_req:Request, res:Response) => {
             } }
 
 
-    export const deletUser = async(req:Request, res:Response) =>{
+  export const deletUser = async(req:Request, res:Response) =>{
       try{
-        const deleuser = await User.deleteOne({_id:req.params.userId})
+        const deleuser = await User.findByIdAndDelete({_id:req.params.userId})
         if (!deleuser) {
           res.status(404).json({
             message: 'No user with that ID'
@@ -68,9 +68,15 @@ export const getUsers = async(_req:Request, res:Response) => {
       }
      }
   
-     export const createFriend = async(req:Request, res:Response) =>{
+     
+// * `POST` to add a new friend to a user's friend list
+
+  export const createFriend = async(req:Request, res:Response) =>{
       try{
-        const dbFriend = await User.create({_id:req.params.friends});
+        const dbFriend = await User.findByIdAndUpdate( 
+          req.params.userId,
+          { $addToSet: { friends: req.params.friendId } },
+          { new: true });
         res.json(dbFriend);
       }catch(err) {
         res.status(500).json(err)
@@ -79,9 +85,11 @@ export const getUsers = async(_req:Request, res:Response) => {
 
   
   
-      export const deletFriend = async(req:Request, res:Response) =>{
+      // * `DELETE` to remove a friend from a user's friend list
+
+  export const deletFriend = async(req:Request, res:Response) =>{
         try{
-          const delefriend = await User.deleteOne({_id:req.params.friends})
+          const delefriend = await User.findByIdAndUpdate(req.params.userId, { $pull:{friends:req.params.friendId}}, {new:true})
           if (!delefriend) {
             res.status(404).json({
               message: 'No user with that ID'
@@ -92,7 +100,7 @@ export const getUsers = async(_req:Request, res:Response) => {
             catch(err) {
               res.status(500).json(err)
           }
-      }
+  }
   
 
 

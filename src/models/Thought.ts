@@ -1,39 +1,41 @@
-import { Schema,  model, ObjectId, type Document } from 'mongoose';
+import { Schema, Types, model, Document} from 'mongoose';
+import Reaction from './Reaction.js'
+import {IReaction} from  './Reaction.js'
 
 
-
-interface IReaction extends Document {
-    reactionId: ObjectId,
-    reactionBody: string,
-    username: String,
-    createdAt: Date
-}
 interface IThought extends Document {
     thoughtText: string,
     createdAt:  Date,
     username: string,
-    reactions: IReaction[]
+    reactions: Types.DocumentArray<IReaction>
 }
 
 const thoughtSchema = new Schema<IThought>({
     thoughtText:{type:String, required:true,maxlength:280},
     createdAt: {
-        type:Date, 
-        Timestamp: {currentTime:()=> Math.floor(Date.now()/1000)}},
+      type: Date,
+      default: Date.now(),
+      get: (value: any) => {
+        return value.toLocaleString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        });
+      }},
     username: {type:String, required:true},
-    reactions: {
-        reactionId:{type: Schema.ObjectId, default: new Object},
-        reactionBody: {type:String, required:true, maxlength:280},
-        username: {type:String, required:true},
-        createdAt: {type:Date, Timestamp: {currentTime:()=> Math.floor(Date.now()/1000)}}
-
-    } },
-    {   toJSON: {virtuals:true,}
+    reactions:[Reaction],            
+        },
+    { 
+        timestamps: true,
+        toJSON: {virtuals:true,
+                getters:true}, 
+                id:false
     }
-    
 )
-
-
 
 // Create a virtual called `friendCount` that retrieves the length of the user's `friends` array field on query.
 thoughtSchema.virtual('reactionCount').get(function () {
