@@ -35,9 +35,9 @@ export const getSingleThought = async (req: Request, res: Response) => {
 }
 
 export const createThought = async (req: Request, res: Response) => {
-  const {thought} = req.body
+  
   try {
-    const dbThought = await Thought.create(thought);
+    const dbThought = await Thought.create(req.body);
     // User.push(dbThought._id);
     
     res.json(dbThought);

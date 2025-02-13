@@ -28,9 +28,8 @@ export const getSingleThought = async (req, res) => {
     }
 };
 export const createThought = async (req, res) => {
-    const { thought } = req.body;
     try {
-        const dbThought = await Thought.create(thought);
+        const dbThought = await Thought.create(req.body);
         // User.push(dbThought._id);
         res.json(dbThought);
     }

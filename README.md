@@ -3,7 +3,7 @@
 ## Description
     Fate Social Network API. Thanks for viewing. 
     
-    
+    Showcast video: https://app.screencastify.com/v3/watch/ULMGkxtL7HQs8KaalPcW
     Repository: https://github.com/georgecho98/bootcamp-hw-13-module-17
 
     
