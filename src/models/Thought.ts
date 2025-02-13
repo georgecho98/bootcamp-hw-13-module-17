@@ -1,7 +1,6 @@
-import { Schema, Types, model, Document} from 'mongoose';
-import Reaction from './Reaction.js'
+import { Schema, Types, model, type Document} from 'mongoose';
+import reactionSchema from './Reaction.js'
 import {IReaction} from  './Reaction.js'
-
 
 interface IThought extends Document {
     thoughtText: string,
@@ -26,8 +25,8 @@ const thoughtSchema = new Schema<IThought>({
           hour12: true
         });
       }},
-    username: {type:String, required:true},
-    reactions:[Reaction],            
+    username:  {type: String, ref:'User', required:true},
+    reactions:[reactionSchema],            
         },
     { 
         timestamps: true,

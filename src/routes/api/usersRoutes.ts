@@ -1,9 +1,9 @@
 import { Router } from 'express';
 const router = Router();
 
-import { getSingleUser, getUsers, createUser, deletUser, createFriend, deletFriend, updateUser } from '../../controllers/userController.js';
+import { getSingleUser, getAllUsers, createUser, deletUser, createFriend, deletFriend, updateUser } from '../../controllers/userController.js';
 //`GET` all users //api/users
-router.route('/').get(getUsers).post(createUser);
+router.route('/').get(getAllUsers).post(createUser);
 
 
 //`a single user by its `_id` and populated thought and friend data

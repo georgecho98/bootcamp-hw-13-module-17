@@ -2,13 +2,13 @@ import { Schema, model } from 'mongoose';
 // import {isEmail} from 'validator';
 import pkg from 'validator';
 const { isEmail } = pkg;
-import Thought from './Thought.js';
+//Mongoose create a new defaut _id if it is not specified. 
 const IUserSchema = new Schema({
     username: { type: String, required: true, unique: true, trim: true },
     email: { type: String, required: true, unique: true, validate: [isEmail, 'Please put in a valid email'] },
     thoughts: [{
             type: Schema.Types.ObjectId,
-            ref: [Thought]
+            ref: 'Thought'
         }],
     friends: [{
             type: Schema.Types.ObjectId,
